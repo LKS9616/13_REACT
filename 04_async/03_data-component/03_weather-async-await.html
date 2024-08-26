@@ -18,25 +18,22 @@
 
         const {useEffect, useState} = React;
 
-        function Weather() {
-
+        async function Weather() {
 
             const [position, setPosition] = useState({});
             const [cityName, setCityName] = useState('');
             const [weather, setWeather] = useState({});
             const [wind, setWind] = useState({});
 
-
-            // 날씨정보로 얻을 수 있는 값
-            //     Clear --> sunny
-            //     Rain --> umbrella
-            //     Thunderstom --> cloud_with_lightning_and_rain
-            //     Drizzle --> cloud_with_rain
-            //     Snow --> snowman
-            //     Clouds --> cloud
-            //     Atomsphere --> airplane
-            //     Mist
-            
+            /* 날씨정보로 얻을 수 있는 값
+                Clear --> sunny
+                Rain --> umbrella
+                Thunderstom --> cloud_with_lightning_and_rain
+                Drizzle --> cloud_with_rain
+                Snow --> snowman
+                Clouds --> cloud
+                Atomsphere --> airplane
+            // */
 
             function getPosition() {
                 return (
@@ -57,6 +54,11 @@
                 return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.latitude}&lon=${coords.longitude}&appid=${API_KEY}`)
                     .then(response => response.json());
             }
+
+            const response = await fetch('https://api.github.com/emojis');
+                const json = await response.json();
+                console.log(json);
+                setImgUrl(json[imojiName]);
 
             useEffect(() => {
                 async function setWeatherState() {
