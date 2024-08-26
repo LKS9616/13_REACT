@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .item {
+            background: powderblue;
+            border: 1px dotted black;
+            width: 350px;
+            height: 250px;
+            /* Fixed height for all items */
+            display: inline-block;
+            margin: 10px;
+            overflow: hidden;
+            /* Ensure overflow text is hidden */
+            text-overflow: ellipsis;
+            /* Add ellipsis for overflowing text */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .item h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .item p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function Title() {
+            return <h1>작성글 목록</h1>
+        }
+
+        function ItemList() {
+
+            const [posts, setPosts] = useState([]);
+
+            // mount시에만 비동기로 데이터를 요청해서 가져오기
+            useEffect(() => {
+                fetch('https://jsonplaceholder.typicode.com/posts')
+                    .then(response => response.json())
+                    .then(res => {
+                        console.log(res);
+
+                        // state변경
+                        setPosts(res);
+                    })
+            },
+                []
+            );
+
+            // 회원 목록 가져오기
+            return (
+                <>
+                    {posts.map(post => <Item post={post} />)}
+                </>
+            )
+        }
+
+        function Item({ post }) {
+            return (
+                <div className='item'>
+                    <h4>{post.id}</h4>
+                    <p>
+                        userId: {post.userId}<br /><br />
+                        title: {post.title}<br /><br />
+                        body: {post.body}<br /><br />
+                    </p>
+                </div>
+            )
+        }
+        function App() {
+            return (
+                <>
+                    <Title />
+                    <ItemList />
+                </>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+
+</html>
