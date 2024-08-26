@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id = "root"></div>
+
+
+    <script type = "text/babel">
+        const menu = {
+            menuName: '열무김치라떼',
+            menuPrice: 4500,
+            category: '커피',
+            orderableStatus: 'Y'
+        }
+
+        function Menu() {
+            return (
+            <div>
+            <h1 style={{textAlign: 'center'}}>{menu.menuName}</h1>
+            <h1 style={{textAlign: 'center'}}>{menu.menuPrice}</h1>
+            <h1 style={{textAlign: 'center'}}>{menu.category}</h1>
+            <h1 style={{textAlign: 'center'}}>{menu.orderableStatus}</h1>
+            </div>
+        );
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(<Menu />);
+    </script>
+</body>
+</html>

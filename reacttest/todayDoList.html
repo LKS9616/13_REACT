@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 할일</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<style>
+    body {
+        background-color: lightgray;
+    }
+</style>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        class ToDoList extends React.Component {
+            state = {
+                now: new Date().toLocaleDateString()
+            };
+
+            render() {
+                console.log('render');
+
+                return (
+                    <div>
+                        <header style={{backgroundColor: 'black', padding: '20px'}}>
+                            <h1 style={{textAlign: 'center', color: 'white'}}><b>오늘의 할일! {this.state.now}</b></h1>
+                        </header>
+                        <h3 style={{padding: '10px', textAlign: 'center'}}>ToDo-List</h3>
+                        <div className='textScreen' 
+                            style={{border: '1px solid black', width: '1000px', height: '700px', backgroundColor: 'white', margin: '20px auto', alignItems: 'center'}}
+                        >
+                            할 일 목록을 추가할 것
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<ToDoList />);
+    </script>
+</body>
+
+</html>
