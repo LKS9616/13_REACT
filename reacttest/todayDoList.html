@@ -20,22 +20,91 @@
     <script type="text/babel">
         class ToDoList extends React.Component {
             state = {
-                now: new Date().toLocaleDateString()
+                now: new Date().toLocaleDateString(),
+                tasks: [],
+                inputText: ''
+            };
+
+            handleInputChange = (event) => {
+                this.setState({ inputText: event.target.value });
+            };
+
+            handleAddTask = () => {
+                if (this.state.inputText.trim() === '') return;
+
+                const newTask = {
+                    id: Date.now(),
+                    text: this.state.inputText,
+                    completed: false
+                };
+
+                this.setState((prevState) => ({
+                    tasks: [...prevState.tasks, newTask],
+                    inputText: ''
+                }));
+            };
+
+            handleToggleTask = (taskId) => {
+                this.setState((prevState) => ({
+                    tasks: prevState.tasks.map((task) =>
+                        task.id === taskId
+                            ? { ...task, completed: !task.completed }
+                            : task
+                    ).sort((a, b) => a.completed - b.completed || a.id - b.id)
+                }));
             };
 
             render() {
-                console.log('render');
-
                 return (
                     <div>
-                        <header style={{backgroundColor: 'black', padding: '20px'}}>
-                            <h1 style={{textAlign: 'center', color: 'white'}}><b>오늘의 할일! {this.state.now}</b></h1>
+                        <header style={{ backgroundColor: 'black', padding: '20px' }}>
+                            <h1 style={{ textAlign: 'center', color: 'white' }}>
+                                <b>오늘의 할일! {this.state.now}</b>
+                            </h1>
                         </header>
-                        <h3 style={{padding: '10px', textAlign: 'center'}}>ToDo-List</h3>
-                        <div className='textScreen' 
-                            style={{border: '1px solid black', width: '1000px', height: '700px', backgroundColor: 'white', margin: '20px auto', alignItems: 'center'}}
+                        <h3 style={{ padding: '10px', textAlign: 'center' }}>ToDo-List</h3>
+                        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                            <input
+                                type="text"
+                                placeholder="오늘의 할 일을 입력하세요"
+                                value={this.state.inputText}
+                                onChange={this.handleInputChange}
+                                style={{ padding: '10px', width: '49%', fontSize: '16px' }}
+                            />
+                            <button onClick={this.handleAddTask} style={{ padding: '10px 20px', marginLeft: '10px' }}>
+                                추가
+                            </button>
+                        </div>
+                        <div className='textScreen'
+                            style={{
+                                border: '1px solid black',
+                                width: '1000px',
+                                height: '700px',
+                                backgroundColor: 'white',
+                                margin: '20px auto',
+                                overflowY: 'scroll',
+                                padding: '10px',
+                            }}
                         >
-                            할 일 목록을 추가할 것
+                            <ul style={{ listStyleType: 'none', padding: '0' }}>
+                                {this.state.tasks.map((task) => (
+                                    <li key={task.id} style={{ 
+                                        textDecoration: task.completed ? 'line-through' : 'none',
+                                        color: task.completed ? 'gray' : 'black',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        padding: '5px 0'
+                                    }}>
+                                        <span>{task.text}</span>
+                                        <input
+                                            type="checkbox"
+                                            checked={task.completed}
+                                            onChange={() => this.handleToggleTask(task.id)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 );
